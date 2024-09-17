@@ -26,60 +26,20 @@
 Что нужно сделать:
 
 1 Зарегистрируйте аккаунт на GitHub.
-
-<img src = "img/1-1.JPG" width = 50%>
-
 2 Создайте новый отдельный публичный репозиторий. Обязательно поставьте галочку в поле «Initialize this repository with a README».
-
-<img src = "img/1-2.JPG" width = 50%>
-
 3 Склонируйте репозиторий, используя https протокол git clone ....
-
-<img src = "img/1-3.JPG" width = 50%>
-
 4 Перейдите в каталог с клоном репозитория.
-
-<img src = "img/1-4.JPG" width = 50%>
-
 5 Произведите первоначальную настройку Git, указав своё настоящее имя и email: git config --global user.name и git config --global user.email johndoe@example.com.
-
-<img src = "img/1-5.JPG" width = 50%>
-
 6 Выполните команду git status и запомните результат.
-
-<img src = "img/1-6.JPG" width = 50%>
-
 7 Отредактируйте файл README.md любым удобным способом, переведя файл в состояние Modified.
-
-<img src = "img/1-7.JPG" width = 50%>
-
 8 Ещё раз выполните git status и продолжайте проверять вывод этой команды после каждого следующего шага.
-
-<img src = "img/1-8.JPG" width = 50%>
-
 9 Посмотрите изменения в файле README.md, выполнив команды git diff и git diff --staged.
-
-<img src = "img/1-9.JPG" width = 50%>
-
 10 Переведите файл в состояние staged или, как говорят, добавьте файл в коммит, командой git add README.md.
-
-<img src = "img/1-10.JPG" width = 50%>
-
 11 Ещё раз выполните команды git diff и git diff --staged.
-
-<img src = "img/1-11.JPG" width = 50%>
-
 12 Теперь можно сделать коммит git commit -m 'First commit'.
-
-<img src = "img/1-12.JPG" width = 50%>
-
 13 Сделайте git push origin master.
 
-<img src = "img/1-13.JPG" width = 50%>
-
-
-
--  https://github.com/dvbychkov/Lab-git/blob/main/README.md
+-  https://github.com/dvbychkov/Lab-git/commit/2d73cc434a9ec52914438312fe9a06e001a73487
 
 ---
 
@@ -87,24 +47,12 @@
 Что нужно сделать:
 
 1 Создайте файл .gitignore (обратите внимание на точку в начале файла) и проверьте его статус сразу после создания.
-
-<img src = "img/2-1.JPG" width = 50%>
-
 2 Добавьте файл .gitignore в следующий коммит git add....
-
-<img src = "img/2-2.JPG" width = 50%>
-
 3 Напишите правила в этом файле, чтобы игнорировать любые файлы .pyc, а также все файлы в директории cache.
-
-<img src = "img/2-3.JPG" width = 50%>
-
 4 Сделайте коммит и пуш.
-
-<img src = "img/2-4.JPG" width = 50%>
-
 В качестве ответа добавьте ссылку на этот коммит в ваш md-файл с решением.
 
--  https://github.com/dvbychkov/Lab-git/blob/main/.gitignore
+-  https://github.com/dvbychkov/Lab-git/commit/7043053dffae8ff745f2b60878b0b8ffdbc47821
 ---
 
 ### Задание 3
@@ -112,29 +60,10 @@
 Что нужно сделать:
 
 1 Создайте новую ветку dev и переключитесь на неё.
-
-<img src = "img/3-1.JPG" width = 50%>
-
 2 Создайте в ветке dev файл test.sh с произвольным содержимым.
-
-<img src = "img/3-2.JPG" width = 50%>
-
 3 Сделайте несколько коммитов и пушей в ветку dev, имитируя активную работу над файлом в процессе разработки.
-
-<img src = "img/3-31.JPG" width = 50%>
-
-<img src = "img/3-32.JPG" width = 50%>
-
-<img src = "img/3-33.JPG" width = 50%>
-
 4 Переключитесь на основную ветку.
-
-<img src = "img/3-4.JPG" width = 50%>
-
 5 Добавьте файл main.sh в основной ветке с произвольным содержимым, сделайте комит и пуш . Так имитируется продолжение общекомандной разработки в основной ветке во время разработки отдельного функционала в dev ветке.
-
-<img src = "img/3-5.JPG" width = 50%>
-
 6 Сделайте мердж dev ветки в основную с помощью git merge dev. Напишите осмысленное сообщение в появившееся окно комита.
 7 Сделайте пуш в основной ветке.
 Не удаляйте ветку dev.
@@ -148,34 +77,13 @@
 Что нужно сделать:
 
 1 Создайте ветку conflict и переключитесь на неё.
-
-<img src = "img/4-1.JPG" width = 50%>
-
 2 Внесите изменения в файл test.sh.
-
-<img src = "img/4-2.JPG" width = 50%>
-
 3 Сделайте коммит и пуш.
-
-<img src = "img/4-3.JPG" width = 50%>
-
 4 Переключитесь на основную ветку.
-
-<img src = "img/4-4.JPG" width = 50%>
-
 5 Измените ту же самую строчку в файле test.sh.
-
-<img src = "img/4-5.JPG" width = 50%>
-
 6 Сделайте коммит и пуш.
-
-<img src = "img/4-6.JPG" width = 50%>
-
 7 Сделайте мердж ветки conflict в основную ветку и решите конфликт так, чтобы в результате в файле оказался код из ветки conflict.
 
-<img src = "img/4-71.JPG" width = 50%>
-
-<img src = "img/4-72.JPG" width = 50%>
 
 
 -  https://github.com/dvbychkov/Lab-git/network
