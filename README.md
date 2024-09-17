@@ -52,7 +52,11 @@
 4 Сделайте коммит и пуш.
 В качестве ответа добавьте ссылку на этот коммит в ваш md-файл с решением.
 
--  https://github.com/dvbychkov/Lab-git/commit/7043053dffae8ff745f2b60878b0b8ffdbc47821
+-  https://github.com/dvbychkov/Lab-git/commit/25d6e4ea112c0985f487d5259b303b161252f141
+
+
+
+
 ---
 
 ### Задание 3
