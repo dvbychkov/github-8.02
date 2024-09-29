@@ -25,119 +25,49 @@
 ### Задание 1
 Что нужно сделать:
 
-Установите себе jenkins по инструкции из лекции или любым другим способом из официальной документации. Использовать Docker в этом задании нежелательно.
+1 Разверните GitLab локально, используя Vagrantfile и инструкцию, описанные в этом репозитории.
+2 Создайте новый проект и пустой репозиторий в нём.
 
-Установка Java
-sudo apt install openjdk-11-jdk
+<img src = "img/1-2.JPG" width = 50%>
 
-<img src = "img/1.JPG" width = 50%>
+3 Зарегистрируйте gitlab-runner для этого проекта и запустите его в режиме Docker. Раннер можно регистрировать и запускать на той же виртуальной машине, на которой запущен GitLab.
 
-<img src = "img/2.JPG" width = 50%>
+<img src = "img/1-3.JPG" width = 50%>
 
-Установите на машину с jenkins golang.
+<img src = "img/1-31.JPG" width = 50%>
 
-<img src = "img/3.JPG" width = 50%>
+<img src = "img/1-32.JPG" width = 50%>
 
-<img src = "img/4.JPG" width = 50%>
 
-Используя свой аккаунт на GitHub, сделайте себе форк репозитория. В этом же репозитории находится дополнительный материал для выполнения ДЗ.
-Создайте в jenkins Freestyle Project, подключите получившийся репозиторий к нему и произведите запуск тестов и сборку проекта go test . и docker build ..
-
-<img src = "img/5.JPG" width = 50%>
-
-<img src = "img/6.JPG" width = 50%>
-
-<img src = "img/7.JPG" width = 50%>
-
-<img src = "img/8.JPG" width = 50%>
-
-<img src = "img/9.JPG" width = 50%>
-
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
 
 ### Задание 2
 Что нужно сделать:
 
-Создайте новый проект pipeline.
-Перепишите сборку из задания 1 на declarative в виде кода.
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
-
-pipeline {
- agent any
- stages {
-  stage('Git') {
-   steps {git 'https://github.com/netology-code/sdvps-materials.git'}
-  }
-  stage('Test') {
-   steps {
-    sh '/usr/local/go/bin/go test .'
-   }
-  }
-  stage('Build') {
-   steps {
-    sh 'docker build . -t ubuntu-bionic:8082/hello-world:v$BUILD_NUMBER'
-   }
-  }
-  stage('Push') {
-   steps {
-    sh 'docker login ubuntu-bionic:8082 -u admin -p admin && docker push ubuntu-bionic:8082/hello-world:v$BUILD_NUMBER && docker logout'   }
-  }
- }
-}
+1 Запушьте репозиторий на GitLab, изменив origin. Это изучалось на занятии по Git.
 
 <img src = "img/2-1.JPG" width = 50%>
+
+2 Создайте .gitlab-ci.yml, описав в нём все необходимые, на ваш взгляд, этапы.
 
 <img src = "img/2-2.JPG" width = 50%>
 
 <img src = "img/2-3.JPG" width = 50%>
 
-### Задание 3
-Что нужно сделать:
+<img src = "img/2-4.JPG" width = 50%>
 
-Установите на машину Nexus.
 
-Создайте raw-hosted репозиторий.
 
-<img src = "img/3-1.JPG" width = 50%>
+В качестве ответа в шаблон с решением добавьте:
 
-Измените pipeline так, чтобы вместо Docker-образа собирался бинарный go-файл. Команду можно скопировать из Dockerfile.
+файл gitlab-ci.yml для своего проекта или вставьте код в соответствующее поле в шаблоне;
+скриншоты с успешно собранными сборками.
 
-pipeline {
- agent any
- stages {
-  stage('Git') {
-   steps {git 'https://github.com/netology-code/sdvps-materials'}
-  }
-  stage('Test') {
-   steps {
-    sh '/usr/local/go/bin/go test .'
-   }
-  }
-  stage('Build') {
-   steps {
-    sh '/usr/local/go/bin/go build -a -installsuffix nocgo'
-   }
-  }
-  stage('Push') {
-   steps {
-    sh 'curl -u admin:admin http://172.17.211.186:8081/repository/raw/ --upload-file ./sdvps-materials'   }
-  }
- }
-}
 
-<img src = "img/3-2.JPG" width = 50%>
+### Задание 3*
+Измените CI так, чтобы:
 
-Загрузите файл в репозиторий с помощью jenkins.
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
+этап сборки запускался сразу, не дожидаясь результатов тестов;
+тесты запускались только при изменении файлов с расширением *.go.
+В качестве ответа добавьте в шаблон с решением файл gitlab-ci.yml своего проекта или вставьте код в соответсвующее поле в шаблоне.
 
-<img src = "img/3-3.JPG" width = 50%>
-
-Дополнительные задания* (со звёздочкой)
-Их выполнение необязательное и не влияет на получение зачёта по домашнему заданию. Можете их решить, если хотите лучше разобраться в материале.
-
-### Задание 4*
-Придумайте способ версионировать приложение, чтобы каждый следующий запуск сборки присваивал имени файла новую версию. Таким образом, в репозитории Nexus будет храниться история релизов.
-
-Подсказка: используйте переменную BUILD_NUMBER.
-
-В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
+<img src = "img/3.JPG" width = 50%>
