@@ -1,73 +1,82 @@
-# Домашнее задание к занятию "`Название занятия`" - `Фамилия и имя студента`
-«Что такое DevOps. СI/СD» - «Бычков Денис Вячеславович»
 
-### Инструкция по выполнению домашнего задания
-
-   1. Сделайте `fork` данного репозитория к себе в Github и переименуйте его по названию или номеру занятия, например, https://github.com/имя-вашего-репозитория/git-hw или  https://github.com/имя-вашего-репозитория/7-1-ansible-hw).
-   2. Выполните клонирование данного репозитория к себе на ПК с помощью команды `git clone`.
-   3. Выполните домашнее задание и заполните у себя локально этот файл README.md:
-      - впишите вверху название занятия и вашу фамилию и имя
-      - в каждом задании добавьте решение в требуемом виде (текст/код/скриншоты/ссылка)
-      - для корректного добавления скриншотов воспользуйтесь [инструкцией "Как вставить скриншот в шаблон с решением](https://github.com/netology-code/sys-pattern-homework/blob/main/screen-instruction.md)
-      - при оформлении используйте возможности языка разметки md (коротко об этом можно посмотреть в [инструкции  по MarkDown](https://github.com/netology-code/sys-pattern-homework/blob/main/md-instruction.md))
-   4. После завершения работы над домашним заданием сделайте коммит (`git commit -m "comment"`) и отправьте его на Github (`git push origin`);
-   5. Для проверки домашнего задания преподавателем в личном кабинете прикрепите и отправьте ссылку на решение в виде md-файла в вашем Github.
-   6. Любые вопросы по выполнению заданий спрашивайте в чате учебной группы и/или в разделе “Вопросы по заданию” в личном кабинете.
-   
-Желаем успехов в выполнении домашнего задания!
-   
-### Дополнительные материалы, которые могут быть полезны для выполнения задания
-
-1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
+«Система мониторинга Zabbix» - «Бычков Денис Вячеславович»      
 
 ---
-
 ### Задание 1
-Что нужно сделать:
+Установите Zabbix Server с веб-интерфейсом.
 
-1 Разверните GitLab локально, используя Vagrantfile и инструкцию, описанные в этом репозитории.
-2 Создайте новый проект и пустой репозиторий в нём.
+Процесс выполнения
+1 Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
+2 Установите PostgreSQL. Для установки достаточна та версия, что есть в системном репозитороии Debian 11.
+3 Пользуясь конфигуратором команд с официального сайта, составьте набор команд для установки последней версии Zabbix с поддержкой PostgreSQL и Apache.
+4 Выполните все необходимые команды для установки Zabbix Server и Zabbix Web Server.
+Требования к результаты
+Прикрепите в файл README.md скриншот авторизации в админке.
+Приложите в файл README.md текст использованных команд в GitHub.
 
-<img src = "img/1-2.JPG" width = 50%>
+<img src = "img/1-1.JPG" width = 50%>
 
-3 Зарегистрируйте gitlab-runner для этого проекта и запустите его в режиме Docker. Раннер можно регистрировать и запускать на той же виртуальной машине, на которой запущен GitLab.
+Установка репозитория Zabbix
+wget https://repo.zabbix.com/zabbix/6.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.4-1+ubuntu22.04_all.deb
+dpkg -i zabbix-release_6.4-1+ubuntu22.04_all.deb
 
-<img src = "img/1-3.JPG" width = 50%>
+Установка Zabbix сервера, веб-интерфейса и агента
+apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-sql-scripts zabbix-agent
 
-<img src = "img/1-31.JPG" width = 50%>
+Создание базы данных
+mysql -uroot -p
+password
+create database zabbix character set utf8mb4 collate utf8mb4_bin;
+create user zabbix@localhost identified by 'password';
+grant all privileges on zabbix.* to zabbix@localhost;
+set global log_bin_trust_function_creators = 1;
+quit;
 
-<img src = "img/1-32.JPG" width = 50%>
+zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
 
+mysql -uroot -p
+password
+set global log_bin_trust_function_creators = 0;
+quit;
+
+Настройка базы данных для Zabbix сервера
+DBPassword=password
+
+Настройка PHP для веб-интерфейса
+listen 8080;
+server_name example.com;
+
+Запуск процессов Zabbix сервера и агента
+systemctl restart zabbix-server zabbix-agent nginx php8.1-fpm
+systemctl enable zabbix-server zabbix-agent nginx php8.1-fpm
 
 
 ### Задание 2
-Что нужно сделать:
+Установите Zabbix Agent на два хоста.
 
-1 Запушьте репозиторий на GitLab, изменив origin. Это изучалось на занятии по Git.
+Процесс выполнения
+1 Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
+2 Установите Zabbix Agent на 2 вирт.машины, одной из них может быть ваш Zabbix Server.
+3 Добавьте Zabbix Server в список разрешенных серверов ваших Zabbix Agentов.
+4 Добавьте Zabbix Agentов в раздел Configuration > Hosts вашего Zabbix Servera.
+Проверьте, что в разделе Latest Data начали появляться данные с добавленных агентов.
+Требования к результаты
+1 Приложите в файл README.md скриншот раздела Configuration > Hosts, где видно, что агенты подключены к серверу
+2 Приложите в файл README.md скриншот лога zabbix agent, где видно, что он работает с сервером
+3 Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.
+4 Приложите в файл README.md текст использованных команд в GitHub
 
 <img src = "img/2-1.JPG" width = 50%>
-
-2 Создайте .gitlab-ci.yml, описав в нём все необходимые, на ваш взгляд, этапы.
 
 <img src = "img/2-2.JPG" width = 50%>
 
 <img src = "img/2-3.JPG" width = 50%>
 
-<img src = "img/2-4.JPG" width = 50%>
 
+### Задание 3 со звёздочкой*
+Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
 
+Требования к результаты
+1 Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:
 
-В качестве ответа в шаблон с решением добавьте:
-
-файл gitlab-ci.yml для своего проекта или вставьте код в соответствующее поле в шаблоне;
-скриншоты с успешно собранными сборками.
-
-
-### Задание 3*
-Измените CI так, чтобы:
-
-этап сборки запускался сразу, не дожидаясь результатов тестов;
-тесты запускались только при изменении файлов с расширением *.go.
-В качестве ответа добавьте в шаблон с решением файл gitlab-ci.yml своего проекта или вставьте код в соответсвующее поле в шаблоне.
-
-<img src = "img/3.JPG" width = 50%>
+<img src = "img/3-1.JPG" width = 50%>
