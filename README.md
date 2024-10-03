@@ -1,82 +1,33 @@
 
-«Система мониторинга Zabbix» - «Бычков Денис Вячеславович»      
+«Disaster recovery и Keepalived» - «Бычков Денис Вячеславович»      
 
 ---
+
 ### Задание 1
-Установите Zabbix Server с веб-интерфейсом.
 
-Процесс выполнения
-1 Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
-2 Установите PostgreSQL. Для установки достаточна та версия, что есть в системном репозитороии Debian 11.
-3 Пользуясь конфигуратором команд с официального сайта, составьте набор команд для установки последней версии Zabbix с поддержкой PostgreSQL и Apache.
-4 Выполните все необходимые команды для установки Zabbix Server и Zabbix Web Server.
-Требования к результаты
-Прикрепите в файл README.md скриншот авторизации в админке.
-Приложите в файл README.md текст использованных команд в GitHub.
+1 Дана схема для Cisco Packet Tracer, рассматриваемая в лекции.
+2 На данной схеме уже настроено отслеживание интерфейсов маршрутизаторов Gi0/1 (для нулевой группы)
+3 Необходимо аналогично настроить отслеживание состояния интерфейсов Gi0/0 (для первой группы).
+4 Для проверки корректности настройки, разорвите один из кабелей между одним из маршрутизаторов и Switch0 и запустите ping между PC0 и Server0.
+5 На проверку отправьте получившуюся схему в формате pkt и скриншот, где виден процесс настройки маршрутизатора.
 
-<img src = "img/1-1.JPG" width = 50%>
+<img src = "img/1.JPG" width = 50%>
 
-Установка репозитория Zabbix
-wget https://repo.zabbix.com/zabbix/6.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.4-1+ubuntu22.04_all.deb
-dpkg -i zabbix-release_6.4-1+ubuntu22.04_all.deb
-
-Установка Zabbix сервера, веб-интерфейса и агента
-apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-sql-scripts zabbix-agent
-
-Создание базы данных
-mysql -uroot -p
-password
-create database zabbix character set utf8mb4 collate utf8mb4_bin;
-create user zabbix@localhost identified by 'password';
-grant all privileges on zabbix.* to zabbix@localhost;
-set global log_bin_trust_function_creators = 1;
-quit;
-
-zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix
-
-mysql -uroot -p
-password
-set global log_bin_trust_function_creators = 0;
-quit;
-
-Настройка базы данных для Zabbix сервера
-DBPassword=password
-
-Настройка PHP для веб-интерфейса
-listen 8080;
-server_name example.com;
-
-Запуск процессов Zabbix сервера и агента
-systemctl restart zabbix-server zabbix-agent nginx php8.1-fpm
-systemctl enable zabbix-server zabbix-agent nginx php8.1-fpm
-
+hsrp_advanced.pkt - https://drive.google.com/file/d/1Lbiy1tEJe5S96fOqDgpvGve6ZWPQnWiM/view?usp=sharing
 
 ### Задание 2
-Установите Zabbix Agent на два хоста.
+1 Запустите две виртуальные машины Linux, установите и настройте сервис Keepalived как в лекции, используя пример конфигурационного файла.
+2 Настройте любой веб-сервер (например, nginx или simple python server) на двух виртуальных машинах
+3 Напишите Bash-скрипт, который будет проверять доступность порта данного веб-сервера и существование файла index.html в root-директории данного веб-сервера.
+4 Настройте Keepalived так, чтобы он запускал данный скрипт каждые 3 секунды и переносил виртуальный IP на другой сервер, если bash-скрипт завершался с кодом, отличным от нуля (то есть порт веб-сервера был недоступен или отсутствовал index.html). Используйте для этого секцию vrrp_script
+5 На проверку отправьте получившейся bash-скрипт и конфигурационный файл keepalived, а также скриншот с демонстрацией переезда плавающего ip на другой сервер в случае недоступности порта или файла index.html
 
-Процесс выполнения
-1 Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
-2 Установите Zabbix Agent на 2 вирт.машины, одной из них может быть ваш Zabbix Server.
-3 Добавьте Zabbix Server в список разрешенных серверов ваших Zabbix Agentов.
-4 Добавьте Zabbix Agentов в раздел Configuration > Hosts вашего Zabbix Servera.
-Проверьте, что в разделе Latest Data начали появляться данные с добавленных агентов.
-Требования к результаты
-1 Приложите в файл README.md скриншот раздела Configuration > Hosts, где видно, что агенты подключены к серверу
-2 Приложите в файл README.md скриншот лога zabbix agent, где видно, что он работает с сервером
-3 Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.
-4 Приложите в файл README.md текст использованных команд в GitHub
+<img src = "img/21.JPG" width = 50%>
 
-<img src = "img/4-1.JPG" width = 50%>
+<img src = "img/22.JPG" width = 50%>
 
-<img src = "img/4-2.JPG" width = 50%>
+<img src = "img/23.JPG" width = 50%>
 
-<img src = "img/4-3.JPG" width = 50%>
+keep_script.sh - https://drive.google.com/file/d/1jhW3Bh9npY28yPRwHHQJX7iXNFHVKybx/view?usp=sharing
 
-
-### Задание 3 со звёздочкой*
-Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
-
-Требования к результаты
-1 Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:
-
-<img src = "img/3-1.JPG" width = 50%>
+keepalived.conf - https://drive.google.com/file/d/1V3n6Rx2fKn0ANbC2THQdPg6zZ-hB8nFs/view?usp=sharing
