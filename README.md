@@ -66,11 +66,11 @@ systemctl enable zabbix-server zabbix-agent nginx php8.1-fpm
 3 Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.
 4 Приложите в файл README.md текст использованных команд в GitHub
 
-<img src = "img/2-1.JPG" width = 50%>
+<img src = "img/4-1.JPG" width = 50%>
 
-<img src = "img/2-2.JPG" width = 50%>
+<img src = "img/4-2.JPG" width = 50%>
 
-<img src = "img/2-3.JPG" width = 50%>
+<img src = "img/4-3.JPG" width = 50%>
 
 
 ### Задание 3 со звёздочкой*
